@@ -1,0 +1,7 @@
+# Host definitions
+
+metric_stack_stations:
+  - name: "Estacion 02"
+    ip: "192.168.1.199:80"
+    fila: "Fila-22" 
+

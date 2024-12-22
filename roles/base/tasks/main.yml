@@ -1,0 +1,30 @@
+---
+# tasks file for tinana-deploy/roles/base
+
+- name: Configure motd
+  ansible.builtin.template:
+    src: motd.j2
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Configure PS1 Prompt
+  ansible.builtin.template:
+    src: ps1prompt.sh.j2
+    dest: /etc/profile.d/ps1prompt.sh
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Configure timezone
+  community.general.timezone:
+    name: America/Mexico_City
+
+- name: Install packages
+  ansible.builtin.package:
+    name:
+      - podman
+      - python3-cryptography
+      - bash-completion
+      - vim

@@ -1,0 +1,23 @@
+{# 
+===============================================================================
+Archivo generado automáticamente por Ansible (template .j2). 
+No editar directamente, los cambios se perderán en la próxima ejecución.
+===============================================================================
+#}
+[Unit]
+Description=Prometheus container
+After=network-online.target
+
+[Container]
+Image=docker.io/prom/prometheus 
+AutoUpdate=registry
+ContainerName=prometheus
+Volume={{ metric_stack_apps['prometheus']['config_file'] }}:/etc/prometheus/prometheus.yml:Z
+Volume={{ metric_stack_apps['prometheus']['metric_volume'] }}:/prometheus:Z
+Network={{ metric_stack_container_network }} 
+User={{ metric_stack_apps['prometheus']['uid']  }}
+Group={{ metric_stack_apps['prometheus']['gid']  }}
+Environment=TZ=America/Mexico_City
+
+[Install]
+WantedBy=default.target

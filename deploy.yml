@@ -1,0 +1,13 @@
+- name: Deploy metric stack stack
+  hosts: all
+  become: true
+
+  tasks:
+  - name: Apply Base Role
+    ansible.builtin.include_role:
+      name: base
+  - name: Apply Metric Stack Role
+    ansible.builtin.include_role:
+      name: metric_stack
+
+

@@ -1,0 +1,6 @@
+[invernadero-dev:children]
+rhel-dev
+
+[rhel-dev]
+ipn-rhel.cyacomputer.com.mx
+

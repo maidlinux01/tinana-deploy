@@ -1,0 +1,25 @@
+---
+# defaults file for metric_stack
+
+metric_stack_container_network: "metric-stack.network"
+
+metric_stack_apps:
+  grafana:
+    unix_user: "grafana"
+    uid: "1500"
+    gid: "1500"
+    volume: "grafana.volume"
+  prometheus:
+    unix_user: "prometheus"
+    uid: "1501"
+    gid: "1501"
+    config_file: "/etc/prometheus/prometheus.yml"
+    metric_volume: "prometheus-metric.volume"
+  proxy:
+    data_volume: "proxy-data.volume"
+    ssl_volume: "proxy-ssl.volume"
+
+metric_stack_stations:
+  - name: "" 
+    ip: ""
+    fila: ""

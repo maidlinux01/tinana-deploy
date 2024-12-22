@@ -1,0 +1,88 @@
+---
+# tasks file for metric_stack
+
+- name: Validate that cloudflare vault variables are defined
+  ansible.builtin.assert:
+    that:
+      - metric_stack_stations[0]['ip'] is defined
+      - metric_stack_stations[0]['ip'] != ""
+    fail_msg: "'metric_stack_stations' debe estar definido"
+
+- name: Create Grafana User
+  ansible.builtin.user:
+    name: "{{ metric_stack_apps['grafana']['unix_user'] }}" 
+    uid: "{{ metric_stack_apps['grafana']['uid'] }}"
+    create_home: false
+    shell: /sbin/nologin
+    expires: -1
+
+- name: Copy Grafana container files
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "/etc/containers/systemd/{{ item.dest }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+    - src: grafana.container.j2
+      dest: grafana.container
+    - src: grafana.volume.j2
+      dest: grafana.volume
+
+- name: Create Prometheus User
+  ansible.builtin.user:
+    name: "{{ metric_stack_apps['prometheus']['unix_user'] }}"
+    uid: "{{ metric_stack_apps['prometheus']['uid'] }}"
+    create_home: false
+    shell: /sbin/nologin
+    expires: -1 
+
+- name: Copy Prometheus container files
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "/etc/containers/systemd/{{ item.dest }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+    - src: prometheus.container.j2
+      dest: prometheus.container
+    - src: prometheus-metric.volume.j2
+      dest: prometheus-metric.volume
+
+- name: Create prometheus directory
+  ansible.builtin.file:
+    path: /etc/prometheus
+    state: directory
+    mode: '0755'
+
+- name: Copy Prometheus config files
+  ansible.builtin.template:
+    src: prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Copy Proxy container files
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "/etc/containers/systemd/{{ item.dest }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+    - src: proxy.container.j2
+      dest: proxy.container
+    - src: proxy-data.volume.j2
+      dest: proxy-data.volume
+    - src: proxy-ssl.volume.j2
+      dest: proxy-ssl.volume
+
+- name: Copy Container Netowrk file
+  ansible.builtin.template:
+    src: metric-stack.network.j2
+    dest: /etc/containers/systemd/metric-stack.network
+    owner: root
+    group: root
+    mode: '0644'

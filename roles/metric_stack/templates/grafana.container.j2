@@ -1,0 +1,21 @@
+{# 
+===============================================================================
+Archivo generado automáticamente por Ansible (template .j2). 
+No editar directamente, los cambios se perderán en la próxima ejecución.
+===============================================================================
+#}
+[Unit]
+Description=Grafana container
+After=network-online.target
+
+[Container]
+Image=docker.io/grafana/grafana:11.1.1
+AutoUpdate=registry
+ContainerName=grafana
+Volume={{ metric_stack_apps['grafana']['volume'] }}:/var/lib/grafana
+Network={{ metric_stack_container_network }} 
+User={{ metric_stack_apps['grafana']['uid']  }}
+Group={{ metric_stack_apps['grafana']['gid']  }}
+
+[Install]
+WantedBy=default.target

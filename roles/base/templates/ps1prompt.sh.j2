@@ -1,0 +1,15 @@
+{# 
+===============================================================================
+Archivo generado automáticamente por Ansible (template .j2). 
+No editar directamente, los cambios se perderán en la próxima ejecución.
+===============================================================================
+#}
+
+if [ $USER != "root" ]
+then
+        # Yellow prompt
+        export PS1='\[\e[93m\][\u@\h \W]\$\[\e[0m\] '
+else
+        # Red prompt
+        export PS1='\[\e[91m\][\u@\h \W]\$\[\e[0m\] '
+fi

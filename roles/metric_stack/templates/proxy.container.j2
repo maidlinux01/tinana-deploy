@@ -1,0 +1,23 @@
+{# 
+===============================================================================
+Archivo generado automáticamente por Ansible (template .j2). 
+No editar directamente, los cambios se perderán en la próxima ejecución.
+===============================================================================
+#}
+[Unit]
+Description=Nginx Proxy Manager container
+After=network-online.target
+
+[Container]
+Image=docker.io/jc21/nginx-proxy-manager:latest
+AutoUpdate=registry
+ContainerName=proxy
+Volume={{ metric_stack_apps['proxy']['data_volume'] }}:/data
+Volume={{ metric_stack_apps['proxy']['ssl_volume'] }}:/etc/letsencrypt
+PublishPort=80:80
+PublishPort=443:443
+Network={{ metric_stack_container_network }}
+
+[Install]
+WantedBy=default.target
+
