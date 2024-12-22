@@ -20,6 +20,6 @@ metric_stack_apps:
     ssl_volume: "proxy-ssl.volume"
 
 metric_stack_stations:
-  - name: "" 
+  - name: ""
     ip: ""
     fila: ""

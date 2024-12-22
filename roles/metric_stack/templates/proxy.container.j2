@@ -1,9 +1,9 @@
-{# 
-===============================================================================
-Archivo generado automáticamente por Ansible (template .j2). 
-No editar directamente, los cambios se perderán en la próxima ejecución.
-===============================================================================
-#}
+
+# ===============================================================================
+# Archivo generado automáticamente por Ansible (proxy.container.j2). 
+# No editar directamente, los cambios se perderán en la próxima ejecución.
+# ===============================================================================
+
 [Unit]
 Description=Nginx Proxy Manager container
 After=network-online.target
@@ -20,4 +20,3 @@ Network={{ metric_stack_container_network }}
 
 [Install]
 WantedBy=default.target
-

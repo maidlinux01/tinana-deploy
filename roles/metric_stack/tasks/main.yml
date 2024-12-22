@@ -1,7 +1,7 @@
 ---
 # tasks file for metric_stack
 
-- name: Validate that cloudflare vault variables are defined
+- name: Validate that metric station variable is defined
   ansible.builtin.assert:
     that:
       - metric_stack_stations[0]['ip'] is defined
@@ -10,7 +10,7 @@
 
 - name: Create Grafana User
   ansible.builtin.user:
-    name: "{{ metric_stack_apps['grafana']['unix_user'] }}" 
+    name: "{{ metric_stack_apps['grafana']['unix_user'] }}"
     uid: "{{ metric_stack_apps['grafana']['uid'] }}"
     create_home: false
     shell: /sbin/nologin
@@ -35,7 +35,7 @@
     uid: "{{ metric_stack_apps['prometheus']['uid'] }}"
     create_home: false
     shell: /sbin/nologin
-    expires: -1 
+    expires: -1
 
 - name: Copy Prometheus container files
   ansible.builtin.template:
@@ -86,3 +86,16 @@
     owner: root
     group: root
     mode: '0644'
+
+- name: Force systemd to reread configs
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Start metric-stack services
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: started
+  loop:
+    - grafana
+    - prometheus
+    - proxy
