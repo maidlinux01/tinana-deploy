@@ -1,6 +1,13 @@
 [invernadero-dev:children]
 rhel-dev
+deb-dev
+alma-dev
 
 [rhel-dev]
 ipn-rhel.cyacomputer.com.mx
 
+[deb-dev]
+172.16.1.64
+
+[alma-dev]
+172.16.1.65

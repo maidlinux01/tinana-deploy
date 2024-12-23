@@ -8,6 +8,12 @@
       - metric_stack_stations[0]['ip'] != ""
     fail_msg: "'metric_stack_stations' debe estar definido"
 
+- name: Create containers systemd directory
+  ansible.builtin.file:
+    path: /etc/containers/systemd
+    state: directory
+    mode: '0755'
+
 - name: Create Grafana User
   ansible.builtin.user:
     name: "{{ metric_stack_apps['grafana']['unix_user'] }}"
